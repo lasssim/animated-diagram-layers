@@ -1,0 +1,14 @@
+allOf:
+  - $ref: "timestamp_attrs.yaml"
+  - type: object
+    required: [id, type]
+    properties:
+      id: 
+        type: string
+        format: uuid
+      type:
+        type: string
+      attributes:
+        type: object
+      relationships:
+        type: object

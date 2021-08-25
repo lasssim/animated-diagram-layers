@@ -1,0 +1,38 @@
+version: "3.4"
+services:
+
+  docs: &docs
+    build:
+      context: doc/assets/mkdocs/
+      dockerfile: mkdocs.Dockerfile
+    image: docs
+    ports:
+      - "9980:9980"
+    volumes: 
+      - ./doc/assets/mkdocs/mkdocs.yml:/docs/mkdocs.yml
+      - ./doc/assets/mkdocs/mkdocs_macros.py:/docs/mkdocs_macros.py
+      - ./:/docs/docs
+      - /tmp/cachedir:/tmp/cachedir
+     
+  docs-build:
+    <<: *docs
+    ports:
+      - "9982:9980"
+    volumes: 
+      - ./doc/assets/mkdocs/mkdocs.yml:/docs/mkdocs.yml
+      - ./doc/assets/mkdocs/mkdocs_macros.py:/docs/mkdocs_macros.py
+      - ./:/docs/docs
+      - /tmp/site:/docs/site
+      - /tmp/cachedir:/tmp/cachedir
+    command: "build"
+
+  plantuml-server:
+     build:
+       context: doc/assets/
+       dockerfile: plantuml-server.Dockerfile
+     image: plantuml-server
+     ports:
+       - "9981:8080"
+     volumes:
+       - ./:/wrk
+  

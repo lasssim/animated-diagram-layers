@@ -1,0 +1,10 @@
+@startuml
+
+!include ../../../doc/assets/puml_helpers/common.iuml
+
+!unquoted procedure optimistic_locking_attrs()
+  attrs_separator(Optimistic Locking)
+  attr(version, Integer)
+!endprocedure
+
+@enduml

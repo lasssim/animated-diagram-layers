@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: API
+  description: >
+externalDocs:
+  description: More info 
+  url: 'https://changeme.com'
+
+paths: 
+  /my_service/my_entity: 
+    get:
+      summary: List 
+      description: Get a list
+      operationId: list_my_entities
+      parameters:
+        - $ref: "../../doc/assets/api_helpers/current_user_header.yaml"
+      tags:
+        - MyEntity 
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/MyService.MyEntity"
+
+
+components:
+  schemas:
+    Entity:
+      allOf:
+        - $ref: "../../doc/assets/api_helpers/entity.yaml"
+            
+    
+    MyService.MyEntity:
+      allOf:
+        - $ref: "#/components/schemas/Entity"
+        - properties:
+            type:
+              enum: [MyService.MyEntity]
+        - properties:
+            attributes:
+              properties:
+                name:
+                  type: string
+            relationships:
+              properties:
+               my_other_entities:
+                  allOf:
+                    - $ref: "../../doc/assets/api_helpers/to_many.yaml"
+                    - properties:
+                        data:
+                          items:
+                            properties:
+                              type:
+                                enum: [MyService.MyEntity]

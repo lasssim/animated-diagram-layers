@@ -1,0 +1,133 @@
+@startuml common
+
+!unquoted procedure class_separator($header="")
+  !if ($header != "")
+.. ##$header ..
+  !else 
+..
+  !endif
+!endprocedure
+
+
+!unquoted procedure is_a($type)
+  -- Derived from --
+  //**$type**//
+!endprocedure
+
+
+!unquoted procedure attrs_header()
+-- Attributes --
+!endprocedure
+
+!unquoted procedure attrs_separator($header="")
+  class_separator($header)
+!endprocedure
+
+
+!unquoted procedure attr($name, $type)
+  **##$name##**: $type
+!endprocedure
+
+!unquoted procedure attr_nested($level, $name, $type)
+  <&chevron-right>attr($name, $type)
+!endprocedure
+
+!unquoted procedure default_attrs()
+  attr(id, UUID)
+  attr(type, String)
+  timestamp_attrs()
+!endprocedure
+
+!unquoted procedure timestamp_attrs()
+  attrs_separator(Timestamps)
+  attr(created_at, DateTime)
+  attr(updated_at, DateTime)
+!endprocedure
+
+!unquoted function enum($enums)
+  !return "Enum[<i>" + $enums + "</i>]"
+!endfunction
+
+!unquoted function array($element_type)
+  !return $element_type + "[]"
+!endfunction
+
+!unquoted function tbd()
+  !return "<size:30><U+1F6A7></size>"
+!endfunction
+
+
+!unquoted procedure rels_header()
+-- Relationships --
+!endprocedure
+
+!unquoted procedure default_rels()
+!endprocedure
+
+
+!unquoted procedure rel($name, $type)
+  **##$name##**: $type
+!endprocedure
+
+!unquoted procedure rel_to_one($name, $type)
+  rel($name, $type)
+!endprocedure
+
+!unquoted procedure rel_to_many($name, $type)
+  rel($name, $type##[])
+!endprocedure
+
+!unquoted procedure rels_separator($header="")
+  class_separator($header)
+!endprocedure
+
+
+'class asdfa {
+'  attr_nested(1, asdf, enum("active, inactive, archived"))
+'}
+
+!unquoted procedure field($name, $value)
+  **##$name##** = <i>$value</i>
+!endprocedure
+
+!unquoted procedure field_rel_many($name)
+  **$field_rel_name($name)**[]
+!endprocedure
+
+!unquoted function $field_rel_name($name)
+  !return "<&link-intact> " + $name
+!endfunction
+
+!unquoted function $field_rel_value($type, $id)
+  !return $type + " | " + $id
+!endfunction
+
+!unquoted procedure field_rel_many_value($type, $id, $comment="")
+  !if ($comment != "")
+    !$comment = "  <color:gray>// " + $comment + "</color>"
+  !endif 
+  \t<&chevron-right> <i>$field_rel_value($type, $id) $comment</i>
+!endprocedure
+
+!unquoted procedure field_rel_one($name, $type, $id)
+  !$value = $field_rel_value($type, $id)
+  field($field_rel_name($name), $value)
+!endprocedure
+
+!unquoted procedure field_rel_null($name)
+  field($field_rel_name($name), null)
+!endprocedure
+
+
+'object asdf {
+'  field(name, value)
+'  $field_rel_value(adsf, 2)
+'  field_rel_one(name, type, id)
+'  field_rel_many(name)
+'  field_rel_many_value(type, id)
+'  field_rel_many_value(type, id)
+'  field_rel_many_value(type, id, "a commend")
+'  field_rel_null(name)
+'}
+
+@enduml

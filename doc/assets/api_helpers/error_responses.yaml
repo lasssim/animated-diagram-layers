@@ -1,0 +1,29 @@
+InternalServerError:
+  description: The request caused an internal server error. 
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          errors:
+            type: array
+            items:
+              type: object
+              properties:
+                status: 
+                  type: string
+                  default: "500"
+                code: 
+                  type: string
+                  default: "internal_server_error"
+                source:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id: 
+                        type: string
+                        format: uuid
+                        example: b2f4bb20-78be-40a2-9f33-79fe74c7bdf3
+                      type: 
+                        type: string

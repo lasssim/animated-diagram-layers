@@ -1,0 +1,49 @@
+parameters:
+  number:
+    name: page[number]
+    description: page number
+    in: query
+    schema:
+      type: integer
+      format: int32
+      minimum: 1
+      default: 1
+      example: "page[number]=2"
+  size:
+    name: page[size]
+    description: page size
+    in: query
+    schema:
+      type: integer
+      format: int64
+      minimum: 0
+      default: 10
+      example: "page[size]=100"
+  offset:
+    name: page[offset]
+    description: pagination offset
+    in: query
+    schema:
+      type: integer
+      format: int64
+      minimum: 1
+      example: "page[offset]=20"
+  limit:
+    name: page[limit]
+    description: pagination limit
+    in: query
+    schema:
+      type: integer
+      format: int64
+      minimum: 1
+      example: "page[limit]=20"
+
+meta:
+  type: object
+  properties:
+    meta:
+      type: object
+      properties:
+        total_count: 
+          type: integer
+          description: amount of total elements fulfilling request

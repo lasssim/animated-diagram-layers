@@ -1,0 +1,11 @@
+{
+  "plantuml.exportFormat": "png",
+  "plantuml.exportOutDir": ".",
+  "plantuml.exportSubFolder": false,
+  "plantuml.includepaths": [
+    ".",
+    "doc/assets/puml_helpers" 
+  ],
+  "plantuml.server": "http://localhost:9981",
+  "plantuml.render": "PlantUMLServer"
+}

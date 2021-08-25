@@ -1,0 +1,31 @@
+site_name: "TODO: ChangeMe Documentation"
+
+docs_dir: docs/
+
+theme:
+  custom_dir: '/docs/docs/doc/assets/mkdocs/theme'
+  name: material
+  logo: doc/assets/logo.png
+  favicon: doc/assets/favicon.png
+  
+  palette:
+    primary: 'black'
+
+markdown_extensions:
+  - plantuml_markdown:
+      format: svg
+      cachedir: /tmp/cachedir
+  - codehilite
+  - admonition
+  - lightgallery
+
+plugins:
+  - awesome-pages:
+      collapse_single_pages: true
+  - macros:
+      module_name: mkdocs_macros
+  - exclude:
+      glob:
+        - my_service/tmp/*
+
+copyright: Your copyright 
