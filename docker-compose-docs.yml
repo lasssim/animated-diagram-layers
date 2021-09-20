@@ -13,18 +13,11 @@ services:
       - ./doc/assets/mkdocs/mkdocs_macros.py:/docs/mkdocs_macros.py
       - ./:/docs/docs
       - /tmp/cachedir:/tmp/cachedir
-     
+      - /tmp/site:/docs/site
   docs-build:
     <<: *docs
-    ports:
-      - "9982:9980"
-    volumes: 
-      - ./doc/assets/mkdocs/mkdocs.yml:/docs/mkdocs.yml
-      - ./doc/assets/mkdocs/mkdocs_macros.py:/docs/mkdocs_macros.py
-      - ./:/docs/docs
-      - /tmp/site:/docs/site
-      - /tmp/cachedir:/tmp/cachedir
-    command: "build"
+    command: "build --clean"
+
 
   plantuml-server:
      build:

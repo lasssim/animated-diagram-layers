@@ -18,12 +18,14 @@ markdown_extensions:
   - codehilite
   - admonition
   - lightgallery
+  - attr_list
 
 plugins:
   - awesome-pages:
       collapse_single_pages: true
   - macros:
       module_name: mkdocs_macros
+  - inline-svg
   - exclude:
       glob:
         - my_service/tmp/*

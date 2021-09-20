@@ -22,6 +22,7 @@ RUN apk add --no-cache \
 RUN pip install mkdocs-macros-plugin
 RUN pip install mkdocs-awesome-pages-plugin
 RUN pip install mkdocs-exclude
+RUN pip install mkdocs-plugin-inline-svg
 RUN pip install pygments
 
 RUN npm install yaml oas-resolver
@@ -32,4 +33,4 @@ RUN cd /tmp/ \
     && cd lightgallery-markdown-master \ 
     && python setup.py install
 
-CMD ["serve", "--dev-addr=0.0.0.0:9980", "--dirtyreload"]
+CMD ["serve", "--dev-addr=0.0.0.0:9980"] 
