@@ -10,6 +10,8 @@ services:
       - /tmp/cachedir:/tmp/cachedir
       - /tmp/site:/docs/site
     env_file: .env
+    depends_on:
+      - plantuml-server
 
   ladoc-dev:
     <<: *ladoc
