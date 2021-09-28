@@ -140,3 +140,25 @@ although there are some known issues:
 * Gitlab can't use `include` statements in PlantUML files like we use them,
   because it only supports URL includes which we can't use with VisualStudio
   Code nor with the standalone version. 
+
+
+
+# Visual Studio Code
+
+## Start ladoc containers automatically
+
+Make sure that automatic tasks are enabled: 
+1. CTRL-P 
+2. Search for and run 'Manage Auotomatic Tasks in Folder'
+3. Select for and run 'Allow Automatic Tasks in Folder'
+
+## Docker compose
+
+If you run into issues with `docker-compose` on Ubuntu not being able to connecto to the
+docker deamon, try this:
+
+```
+$ sudo usermod -aG docker $USER
+```
+
+And start your terminal again.

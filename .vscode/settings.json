@@ -8,5 +8,6 @@
   ],
   "plantuml.server": "http://localhost:1401",
   "plantuml.render": "PlantUMLServer",
-  "browser-preview.startUrl": "https://localhost:1400"
+  "browser-preview.startUrl": "https://localhost:1400",
+  "hediet.vscode-drawio.theme": "Kennedy"
 }
