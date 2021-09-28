@@ -3,6 +3,7 @@
 !include common.iuml
 !include class_styles.iuml
 
+
 class A
 class B
 

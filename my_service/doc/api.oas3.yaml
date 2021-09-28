@@ -14,7 +14,7 @@ paths:
       description: Get a list
       operationId: list_my_entities
       parameters:
-        - $ref: "../../doc/assets/api_helpers/current_user_header.yaml"
+        - $ref: "../../.ladoc/api_helpers/current_user_header.yaml"
       tags:
         - MyEntity 
       responses:
@@ -36,7 +36,7 @@ components:
   schemas:
     Entity:
       allOf:
-        - $ref: "../../doc/assets/api_helpers/entity.yaml"
+        - $ref: "../../.ladoc/api_helpers/entity.yaml"
             
     
     MyService.MyEntity:
@@ -54,7 +54,7 @@ components:
               properties:
                my_other_entities:
                   allOf:
-                    - $ref: "../../doc/assets/api_helpers/to_many.yaml"
+                    - $ref: "../../.ladoc/api_helpers/to_many.yaml"
                     - properties:
                         data:
                           items:

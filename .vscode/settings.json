@@ -4,8 +4,9 @@
   "plantuml.exportSubFolder": false,
   "plantuml.includepaths": [
     ".",
-    "doc/assets/puml_helpers" 
+    ".ladoc/puml_helpers" 
   ],
-  "plantuml.server": "http://localhost:9981",
-  "plantuml.render": "PlantUMLServer"
+  "plantuml.server": "http://localhost:1401",
+  "plantuml.render": "PlantUMLServer",
+  "browser-preview.startUrl": "https://localhost:1400"
 }

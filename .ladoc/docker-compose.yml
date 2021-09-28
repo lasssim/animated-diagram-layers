@@ -1,0 +1,31 @@
+version: "3.4"
+services:
+
+  ladoc: &ladoc
+    image: ghcr.io/lasssim/ladoc:main
+    ports:
+      - "1400:1400"
+    volumes: 
+      - ../:/docs/docs
+      - /tmp/cachedir:/tmp/cachedir
+      - /tmp/site:/docs/site
+    env_file: .env
+
+  ladoc-dev:
+    <<: *ladoc
+    build:
+      context: ../../ladoc/
+
+  ladoc-build:
+    <<: *ladoc
+    command: "build --clean"
+
+  plantuml-server:
+    image: plantuml/plantuml-server:jetty-v1.2021.7
+    ports:
+      - "1401:8080"
+    volumes:
+      - ../:/wrk
+    environment:
+      - JAVA_OPTIONS=-Dplantuml.include.path=.:/wrk:/wrk/.ladoc/puml_helpers/ -Dorg.eclipse.jetty.annotations.AnnotationParser.LEVEL=OFF
+      - ALLOW_PLANTUML_INCLUDE=true

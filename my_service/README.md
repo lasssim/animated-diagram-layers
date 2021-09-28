@@ -2,11 +2,13 @@
 
 This is my general description. Add a diagram here.
 
+![!](doc/architecture.drawio.svg)
+
 ## Data Structure
 
 ```plantuml
 @startuml
-!include my_service/doc/classes.iuml
+!include my_service/doc/classes.iuml 
 @enduml
 ```
 
