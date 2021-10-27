@@ -13,11 +13,6 @@ services:
     depends_on:
       - plantuml-server
 
-  ladoc-dev:
-    <<: *ladoc
-    build:
-      context: ../../ladoc/
-
   ladoc-build:
     <<: *ladoc
     command: "build --clean"
