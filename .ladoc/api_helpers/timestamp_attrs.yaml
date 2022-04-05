@@ -1,0 +1,13 @@
+type: object
+properties:
+  attributes:
+    type: object
+    properties:
+      created_at:
+        description: UTC timestamp when entity was created in the database. Set by server.
+        type: string
+        format: date-time
+      updated_at:
+        description: UTC timestamp when entity was updated in the database. Set by server.
+        type: string
+        format: date-time

@@ -1,0 +1,19 @@
+parameters:
+  include:
+    name: include[string[]]
+    description: comma-separated list of include values
+    in: query
+    schema:
+      type: string
+      example: "include=material_additions"
+
+attributes:
+  type: object
+  properties:
+    attributes:
+      type: object
+      properties:
+        fields_with_default_values:
+          description: A list of field names (attributes, relationships) that hold default values.
+          type: string
+ 

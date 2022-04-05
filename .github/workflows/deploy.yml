@@ -1,0 +1,36 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Site
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Repo
+      uses: actions/checkout@v1
+
+    - name: Create site directory
+      run: mkdir /tmp/site && chmod 777 /tmp/site
+    
+    - name: Docker Login
+      uses: azure/docker-login@v1
+      with:
+        login-server: ghcr.io
+        username: $GITHUB_ACTOR
+        password: ${{ secrets.GITHUB_TOKEN }}  
+
+    - name: Run build of site
+      run: docker-compose -f .ladoc/docker-compose.yml run ladoc-build
+    
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.1.0
+      with:
+        server: lisuna.org
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASS }}
+        local-dir: /tmp/site/

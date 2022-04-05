@@ -1,0 +1,7 @@
+name: current_user_id
+description: The ID of the currently authenticated user.
+in: header
+schema:
+  type: string
+  format: uuid
+  example: 61200625-2463-4b27-babd-f478198a0638 

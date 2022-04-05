@@ -1,0 +1,66 @@
+
+skinparam shadowing false
+skinparam FontName DejaVu Sans
+skinparam FontSize 12
+skinparam FontStyle Bold
+skinparam FontColor #212f37 
+skinparam ClassBorderColor #212f37
+skinparam ClassFontColor #212f37
+skinparam ObjectBorderColor #212f37
+skinparam ObjectFontColor #212f37
+skinparam ArrowColor #212f37
+skinparam PackageBorderColor #212f37
+skinparam PackageFontStyle bold
+skinparam PackageFontSize 12
+skinparam Padding 3
+skinparam TabSize 2
+
+skinparam sequence {
+	ArrowColor #212f37
+	ActorBorderColor #212f37
+	LifeLineBorderColor #212f37 
+	LifeLineBackgroundColor #ecedee
+	
+	ParticipantBorderColor #212f37
+	ParticipantBackgroundColor #ecedee
+	ParticipantFontName DejaVu Sans
+	ParticipantFontSize 12
+	ParticipantFontColor #212f37
+	
+	ActorBackgroundColor #ecedee
+	ActorFontColor #212f37
+	ActorFontSize 12
+	ActorFontName DejaVu Sans
+}
+
+skinparam DatabaseBorderColor #212f37
+skinparam	DatabaseBackgroundColor #ecedee
+skinparam	DatabaseFontName DejaVu Sans
+skinparam	DatabaseFontSize 12
+skinparam	DatabaseFontColor #212f37
+
+skinparam note {
+  BackgroundColor #f7df98
+  BorderColor #212f37
+  shadowing false
+}
+
+skinparam state {
+  StartColor #212f37
+  EndColor #212f37
+  BorderColor #212f37
+  FontColor #212f37
+  FontStyle bold
+  FontSize 12 
+  BackgroundColor #bfe9f8
+}
+
+skinparam Activity {
+    BackgroundColor    #bfe9f8
+    BorderColor        #212f37
+    ArrowColor         #212f37
+    DiamondBackgroundColor #bfe9f8
+    DiamondBorderColor        #212f37
+
+}
+

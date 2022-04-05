@@ -1,0 +1,18 @@
+type: object
+required: [data]
+properties:
+  data:
+    type: object
+    required: [id, type]
+    properties:
+      id:
+        type: string
+        format: uuid
+      type:
+        type: string
+
+  
+  
+  
+  
+  
