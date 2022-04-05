@@ -18,11 +18,11 @@ jobs:
       run: mkdir /tmp/site && chmod 777 /tmp/site
     
     - name: Docker Login
-￼     uses: azure/docker-login@v1
-￼     with:
-￼       login-server: ghcr.io
-￼       username: $GITHUB_ACTOR
-￼       password: ${{ secrets.GITHUB_TOKEN }}  
+      uses: azure/docker-login@v1
+      with:
+        login-server: ghcr.io
+        username: $GITHUB_ACTOR
+        password: ${{ secrets.GITHUB_TOKEN }}  
 
     - name: Run build of site
       run: docker-compose -f .ladoc/docker-compose.yml run ladoc-build
