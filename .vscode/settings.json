@@ -16,14 +16,14 @@
   "hediet.vscode-drawio.theme": "Kennedy",
   "hediet.vscode-drawio.customLibraries": [
     {
-      "file": "${workspaceFolder}/.ladoc/diagrams.net/Lasssim Architecture Primitives v2.xml",
-      "libName": "Lasssim Architecture Primitives v2",
-      "entryId": "Lasssim Architecture Primitives v2"
+      "file": "${workspaceFolder}/.ladoc/diagrams.net/Lasssim Primitives.xml",
+      "libName": "Lasssim Primitives",
+      "entryId": "Lasssim Primitives"
     },
     {
-      "file": "${workspaceFolder}/.ladoc/diagrams.net/Lasssim Arrangements v1.xml",
-      "libName": "Lasssim Arrangements v1",
-      "entryId": "Lasssim Arrangements v1"
+      "file": "${workspaceFolder}/.ladoc/diagrams.net/Lasssim Arrangements.xml",
+      "libName": "Lasssim Arrangements",
+      "entryId": "Lasssim Arrangements"
     }    
   ], 
   "hediet.vscode-drawio.customColorSchemes": [
