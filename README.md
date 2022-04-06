@@ -1,12 +1,5 @@
-# TODO: Changeme Documentation
+# Animated Diagram Layers
 
+This is the documentation and code of an experiment to animate layers of a
+software architecture diagram.
 
-## Docker registry
-
-### Create Github Token
-https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-
-### Login
-```
-$ docker login ghcr.io -u USERNAME
-```localhost:1400/
