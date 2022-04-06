@@ -1,8 +1,12 @@
 version: '3.6'
 
 services:
-  app:
+  app: &app
     build:
       context: .
     volumes:
       - .:/usr/src/app
+  
+  cleanup:
+    <<: *app
+    entrypoint: ["rm", "-rf", "/usr/src/app/tmp", "/usr/src/app/out"]
