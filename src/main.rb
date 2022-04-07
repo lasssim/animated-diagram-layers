@@ -8,11 +8,11 @@ using Rainbow
 
 require 'digest'
 
-TMP_DIR = FileUtils.mkdir_p("tmp/")[0]
-FRAMES_DIR = FileUtils.mkdir_p(File.join(TMP_DIR, 'frames'))[0]
-OUT_DIR = FileUtils.mkdir_p("out/")[0]
-
-INPUT_FPS = 30
+TMP_DIR     = File.expand_path FileUtils.mkdir_p("tmp/")[0]
+FRAMES_DIR  = File.expand_path FileUtils.mkdir_p(File.join(TMP_DIR, 'frames'))[0]
+DIGESTS_DIR = File.expand_path FileUtils.mkdir_p(File.join(TMP_DIR, 'digests'))[0]
+OUT_DIR     = File.expand_path FileUtils.mkdir_p("out/")[0]
+INPUT_FPS   = 30
 
 def to_out_image_name(image, frame_nr, out_prefix, out_suffix)
   File.expand_path([
@@ -27,19 +27,19 @@ def to_out_image_name(image, frame_nr, out_prefix, out_suffix)
   )
 end
 
-def when_things_changed(image:, cmd:, current_out_image_name:)
-  cmd_md5 = cmd #Digest::MD5.hexdigest(cmd)
-  current_cmd_md5_file_name = current_out_image_name + ".cmd.md5"
-  cmd_changed = !(File.exists?(current_cmd_md5_file_name) && File.read(current_cmd_md5_file_name) == cmd_md5)
+def when_things_changed(input_file_names:, cmd:, current_out_file_name:)
+  cmd_digest = cmd
+  current_cmd_file_name = File.join(DIGESTS_DIR, File.basename(current_out_file_name) + ".cmd_digest")
+  cmd_changed = !(File.exists?(current_cmd_file_name) && File.read(current_cmd_file_name) == cmd_digest)
   
-  image_md5 = Digest::MD5.hexdigest(File.read(image))
-  current_image_md5_file_name = current_out_image_name + ".image.md5"
-  image_changed = !(File.exists?(current_image_md5_file_name) && File.read(current_image_md5_file_name) == image_md5) 
-  
+  input_digest = input_file_names.map { |input_file_name| Digest::MD5.hexdigest(File.read(input_file_name)) }.join("\n") 
+  current_input_digest_file_name = File.join(DIGESTS_DIR, File.basename(current_out_file_name) + ".input_digest")
+  image_changed = !(File.exists?(current_input_digest_file_name) && File.read(current_input_digest_file_name) == input_digest) 
+ 
   yield if cmd_changed || image_changed
 
-  File.write(current_cmd_md5_file_name, cmd_md5)
-  File.write(current_image_md5_file_name, image_md5)
+  File.write(current_cmd_file_name, cmd_digest)
+  File.write(current_input_digest_file_name, input_digest)
   
  end
 
@@ -47,10 +47,10 @@ def to_frames(image:, out_suffix:, nr_frames: 1, duration: nil, out_prefix: '00'
   dir = FRAMES_DIR 
 
   absolute_image_path = File.expand_path(image)
-  nr_frames = duration * INPUT_FPS if duration
+  nr_frames = (duration * INPUT_FPS).round if duration
   frame_files = Concurrent::Array.new
   spinner = TTY::Spinner.new(
-    "[:spinner] #{File.basename(image).yellow} @ #{out_suffix.cyan} -> #{nr_frames.to_s.yellow} frames", 
+    "[:spinner] Operation: #{out_suffix.cyan} | Nr. Frames: #{nr_frames.to_s.rjust(3).yellow} | File: #{File.basename(image).yellow}", 
     format: :pulse_2,
     success_mark: '✓'.green,
     hide_cursor: true
@@ -66,7 +66,7 @@ def to_frames(image:, out_suffix:, nr_frames: 1, duration: nil, out_prefix: '00'
       frame_nr = nr_frames - frame_nr - 1 if reverse
       cmd = yield frame_nr, current_out_image_name, nr_frames, absolute_image_path
       
-      when_things_changed(image: absolute_image_path, cmd: cmd, current_out_image_name: current_out_image_name) do
+      when_things_changed(input_file_names: [absolute_image_path], cmd: cmd, current_out_file_name: current_out_image_name) do
         `#{cmd}`
       end
 
@@ -150,7 +150,7 @@ def render_ffmpeg(frames:, name:, format: nil)
   out_filename = File.join(OUT_DIR, "#{name}.#{format}")
 
   spinner = TTY::Spinner.new(
-    "[:spinner] Rendering: #{out_filename.green}", 
+    "[:spinner] Rendering: #{out_filename.green} | Nr. Frames: #{frames.count.to_s.rjust(3).yellow} -> Duration: ~#{(frames.count.to_f / INPUT_FPS.to_f).round}s", 
     format: :dots,
     success_mark: '✓'.green,
     hide_cursor: true
@@ -158,7 +158,7 @@ def render_ffmpeg(frames:, name:, format: nil)
   spinner.auto_spin
 
   render_sequence_filename = File.join(TMP_DIR, 'render_sequence.ffmpeg.txt')
-  File.write(render_sequence_filename, frames.map { |f| "file '#{f}'\nduration 0.033" }.join("\n"))
+  File.write(render_sequence_filename, frames.map { |f| "file '#{f}'\nduration #{1/INPUT_FPS.to_f}" }.join("\n"))
 
   ffmpeg_args = "-y -hide_banner -loglevel error"
 
@@ -169,42 +169,45 @@ def render_ffmpeg(frames:, name:, format: nil)
 
 end
 
-def render_animation_mp4(frames:, name:, width: nil)
+def render_animation_mp4(frames:, name:, width:)
   render_ffmpeg(frames: frames, name: name, format: "mp4") do |out_filename, render_sequence_filename, ffmpeg_args|
-    `ffmpeg #{ffmpeg_args} -f concat -safe 0 -r #{INPUT_FPS} -i #{render_sequence_filename} -vf scale=#{width}:-1 #{out_filename}`
+    cmd = "ffmpeg #{ffmpeg_args} -f concat -safe 0 -r #{INPUT_FPS} -i #{render_sequence_filename} -vf scale=#{width}:-1 #{out_filename}"
+    when_things_changed(input_file_names: frames, cmd: cmd, current_out_file_name: out_filename) do
+      `#{cmd}`
+    end
   end
 end
 
-def render_animation_gif(frames:, palette_frame:, name:, width:, fps:15)
+def render_animation_gif(frames:, name:, width:, fps:15)
   render_ffmpeg(frames: frames, name: name, format: "gif") do |out_filename, render_sequence_filename, ffmpeg_args|
     ## https://medium.com/@Peter_UXer/small-sized-and-beautiful-gifs-with-ffmpeg-25c5082ed733
-    cmd = "ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -r #{INPUT_FPS} -i #{render_sequence_filename} -filter_complex '[0:v] fps=#{fps},scale=w=#{width}:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1' #{TMP_DIR}/#{name}.gif"
-    `#{cmd}`
+    tmp_file = File.join(TMP_DIR, "/#{name}_tmp.gif")
 
-    cmd = "gifsicle --colors 256 -O3 #{TMP_DIR}/#{name}.gif -o #{out_filename}"
-    `#{cmd}`
+  
+    cmd = "ffmpeg #{ffmpeg_args} -f concat -safe 0 -r #{INPUT_FPS} -i #{render_sequence_filename} -filter_complex '[0:v] fps=#{fps},scale=w=#{width}:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1' #{tmp_file}"
+    when_things_changed(input_file_names: frames, cmd: cmd, current_out_file_name: tmp_file) do
+      `#{cmd}`
+    end
+   
+    cmd = "gifsicle --colors 256 -O3 #{tmp_file} -o #{out_filename}"
+    when_things_changed(input_file_names: frames, cmd: cmd, current_out_file_name: out_filename) do
+      `#{cmd}`
+    end
   end
 end
 
 
-keep = true
-tilt_angle = 70
-
-frame_multiplier = 1
-
+tilt_angle  = 70
 lift_height = 250
-up_frames = 15
-down_frames = 15
 
-overview_image = 'layers/0_system.drawio.png'
-framework_image = 'layers/1_framework.drawio.png'
+overview_image         = 'layers/0_system.drawio.png'
+framework_image        = 'layers/1_framework.drawio.png'
 framework_system_image = 'layers/2_framework_system.drawio.png'
 
 overview_frames = tilt_image_to_frames(
   image: overview_image, 
   to_angle: tilt_angle, 
   duration: 2,
-  keep_existing: keep, 
   out_prefix: '01', 
   transparent: false
 )
@@ -213,7 +216,6 @@ framework_frames = tilt_image_to_frames(
   image: framework_image, 
   to_angle: tilt_angle, 
   nr_frames: 1,
-  keep_existing: keep, 
   out_prefix: '000',
   reverse: true
 )
@@ -224,7 +226,6 @@ framework_lift_frames = lift_image_to_frames(
   background_fade: true,
   height: lift_height, 
   duration: 1,
-  keep_existing: keep, 
   out_prefix: '02'
 )
 
@@ -232,8 +233,7 @@ framework_lift_frames_reverse = lift_image_to_frames(
   image: framework_frames[0], 
   height: lift_height,
   duration: 1,
-  keep_existing: keep, 
-  out_suffix: 'lift_reverse', 
+  out_suffix: 'lift', 
   out_prefix: '03', 
   reverse: true
 )
@@ -242,7 +242,6 @@ framework_tilt_frames_reverse = tilt_image_to_frames(
   image: framework_image, 
   to_angle: tilt_angle,
   duration: 1,
-  keep_existing: keep, 
   out_prefix: '04', 
   transparent: false, 
   reverse: true
@@ -252,7 +251,6 @@ framework_system_fade_over_frames = fade_over(
   image: framework_system_image,
   overlay_image: framework_image,
   duration: 1,
-  keep_existing: keep, 
   out_prefix: '05', 
   transparent: false
 )
@@ -266,7 +264,7 @@ render_frames += Array.new(5, framework_lift_frames[-1])
 render_frames += framework_lift_frames_reverse
 render_frames += framework_tilt_frames_reverse
 render_frames += framework_system_fade_over_frames
-render_frames += Array.new(15, framework_system_fade_over_frames[-1])
+render_frames += Array.new(60, framework_system_fade_over_frames[-1])
 
 render_animation_mp4(
   frames: render_frames, 
@@ -276,10 +274,7 @@ render_animation_mp4(
 
 render_animation_gif(
   frames: render_frames,
-  palette_frame: render_frames[-1],
   name: 'animation',
   width: 720,
-  fps: 30
+  fps: 15
 )
-
-exit
