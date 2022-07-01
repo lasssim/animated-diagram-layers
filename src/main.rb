@@ -90,7 +90,7 @@ def tilt_image_to_frames(image:, to_angle: 0, nr_frames: 1, duration: nil, keep_
     current_tilt_value = to_angle.to_f / nr_frames.to_f * (frame_nr.to_f + 1)
     bgcolor = transparent ? 'none' : 'white -alpha remove -alpha off'
     
-    "3Drotate tilt=#{current_tilt_value} zoom=1 bgcolor='#{bgcolor}' '#{absolute_image_path}' '#{current_out_image_name}'"
+    "3Drotate tilt=#{current_tilt_value} bgcolor='#{bgcolor}' '#{absolute_image_path}' '#{current_out_image_name}'"
   end
 end
 
@@ -114,10 +114,11 @@ def lift_image_to_frames(image:, height:, background_image: nil, background_fade
         ''
       end
     else
-      ''
+      " -background white"
     end
 
     "convert #{background_image_arg} -page +0-#{current_height}% -background white -gravity center '#{absolute_image_path}' -flatten '#{current_out_image_name}'"
+    "convert #{background_image_arg} -page +0-#{current_height}% '#{absolute_image_path}' -flatten '#{current_out_image_name}'"
   end
 end
 
@@ -272,9 +273,38 @@ render_animation_mp4(
   width: 1920
 )
 
-render_animation_gif(
+render_animation_mp4(
   frames: render_frames,
   name: 'animation',
-  width: 720,
-  fps: 15
+  width: 1920,
+)
+
+render_animation_mp4(
+  frames: overview_frames,
+  name: '1_overview',
+  width: 1920,
+)
+
+render_animation_mp4(
+  frames: framework_lift_frames,
+  name: '2_framework_lift',
+  width: 1920,
+)
+
+render_animation_mp4(
+  frames: framework_lift_frames_reverse,
+  name: '3_framework_lift_reverse',
+  width: 1920,
+)
+
+render_animation_mp4(
+  frames: framework_tilt_frames_reverse,
+  name: '4_framework_tilt_reverse',
+  width: 1920,
+)
+
+render_animation_mp4(
+  frames: framework_system_fade_over_frames,
+  name: '5_framework_system_fade_over',
+  width: 1920,
 )
