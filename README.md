@@ -233,3 +233,11 @@ The preceding command uses these parameters:
 | `'-compose over -composite'` | composite images |
 | `'/usr/src/app/tmp/frames/05-2_framework_system.drawio-fade-015.png'` | output filename![](doc/tmp/frames/05-2_framework_system.drawio-fade-015.png) |
 
+## The Code
+
+Take a look at the file `src/main.rb` for the code. Read it from the bottom up.
+It deliberately is kept simple and within one file. My goal was to automate and
+document the way the animation is created.
+
+Feel free to ask questions, report bugs, fork, modify or send pull requests. I
+would love to hear from you.

@@ -117,7 +117,6 @@ def lift_image_to_frames(image:, height:, background_image: nil, background_fade
       " -background white"
     end
 
-    "convert #{background_image_arg} -page +0-#{current_height}% -background white -gravity center '#{absolute_image_path}' -flatten '#{current_out_image_name}'"
     "convert #{background_image_arg} -page +0-#{current_height}% '#{absolute_image_path}' -flatten '#{current_out_image_name}'"
   end
 end
@@ -166,8 +165,6 @@ def render_ffmpeg(frames:, name:, format: nil)
   yield out_filename, render_sequence_filename, ffmpeg_args
 
   spinner.success
-
-
 end
 
 def render_animation_mp4(frames:, name:, width:)
@@ -271,12 +268,6 @@ render_animation_mp4(
   frames: render_frames, 
   name: 'animation',
   width: 1920
-)
-
-render_animation_mp4(
-  frames: render_frames,
-  name: 'animation',
-  width: 1920,
 )
 
 render_animation_mp4(
