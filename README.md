@@ -14,14 +14,6 @@ the last step.
 If you want to find out more about how I draw these diagrams, check out [this
 page](https://www.lasssim.com/diagrams).
 
-The whole animation is backed by a Ruby script that can be found in
-`src/main.rb` and can be invoked like this:
-
-```bash
-$ cd src
-$ docker-compose run app
-```
-
 ## The Animation
 
 The animation is split into multiple steps shown in the following chart.
@@ -235,9 +227,21 @@ The preceding command uses these parameters:
 
 ## The Code
 
-Take a look at the file `src/main.rb` for the code. Read it from the bottom up.
+The whole animation is backed by a Ruby script that can be found in
+`src/main.rb`. Read it from the bottom up.
+
 It deliberately is kept simple and within one file. My goal was to automate and
 document the way the animation is created.
 
 Feel free to ask questions, report bugs, fork, modify or send pull requests. I
 would love to hear from you.
+
+### Running it
+
+Clone the repository and run the following command:
+
+```bash
+$ cd src
+$ docker-compose run app
+```
+
