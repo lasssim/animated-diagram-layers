@@ -9,7 +9,7 @@ diagram, lifting the framework out of the architecture and then showing the
 usage of the framework by the indication of the border color of the hexagons in
 the last step.
 
-![](src/out/animation.gif)
+![](doc/out/animation.gif)
 
 If you want to find out more about how I draw these diagrams, check out [this
 page](https://www.lasssim.com/diagrams).
@@ -49,7 +49,7 @@ need.
 
 The partly rendered animation of this step looks like this:
 
-![](src/out/1_overview.gif)
+![](doc/out/1_overview.gif)
 
 #### The Command
 
@@ -67,7 +67,7 @@ The preceding command uses these parameters:
 | `tilt=35.0` | calculated tilt angle of the current iteration |
 | `bgcolor='white -alpha remove -alpha off'` | set white background |
 | `'/usr/src/app/layers/0_system.drawio.png'` | input filename ![](src/layers/0_system.drawio.png) |
-| `'/usr/src/app/tmp/frames/01-0_system.drawio-tilt-029.png'` | output filename ![](src/tmp/frames/01-0_system.drawio-tilt-029.png) |
+| `'/usr/src/app/tmp/frames/01-0_system.drawio-tilt-029.png'` | output filename ![](doc/tmp/frames/01-0_system.drawio-tilt-029.png) |
 
 
 ### Step 1.5
@@ -78,7 +78,7 @@ framework diagram. We can use `3Drotate` again.
 
 The created image looks like this: 
 
-![](src/tmp/frames/000-1_framework.drawio-tilt-000.png)
+![](doc/tmp/frames/000-1_framework.drawio-tilt-000.png)
 
 #### The Command
 
@@ -98,7 +98,7 @@ The preceding command uses these parameters:
 | `tilt=70.0` | the tilt angle |
 | `bgcolor='none'` | we need a transparent background (see next 2) |
 | `'/usr/src/app/layers/1_framework.drawio.png'` | input filename ![](src/layers/1_framework.drawio.png) |
-| `'/usr/src/app/tmp/frames/000-1_framework.drawio-tilt-000.png'` | output filename ![](src/tmp/frames/000-1_framework.drawio-tilt-000.png) |
+| `'/usr/src/app/tmp/frames/000-1_framework.drawio-tilt-000.png'` | output filename ![](doc/tmp/frames/000-1_framework.drawio-tilt-000.png) |
 
 
 ### Step 2
@@ -108,7 +108,7 @@ lifting it out of the tilted overview layer from step 1. To do that I used
 
 The partly rendered animation of this step looks like this:
 
-![](src/out/2_framework_lift.gif)
+![](doc/out/2_framework_lift.gif)
 
 #### The Command
 
@@ -126,12 +126,12 @@ $ convert \
 The preceding command uses these parameters:
 | Parameter | Explaination |
 | ------- | ------------ |
-| `'/usr/src/app/tmp/frames/01-0_system.drawio-tilt-059.png'` | input filename ![](src/tmp/frames/01-0_system.drawio-tilt-059.png)|
+| `'/usr/src/app/tmp/frames/01-0_system.drawio-tilt-059.png'` | input filename ![](doc/tmp/frames/01-0_system.drawio-tilt-059.png)|
 | `'-fill white -colorize 66%'` | (calculated) makes the background fade to white |
 | `'-page +0-175.0%'` | (calculated) adds a layer on top of the background |
-| `'/usr/src/app/tmp/frames/000-1_framework.drawio-tilt-000.png'` | new layer filename ![](src/tmp/frames/000-1_framework.drawio-tilt-000.png)|
+| `'/usr/src/app/tmp/frames/000-1_framework.drawio-tilt-000.png'` | new layer filename ![](doc/tmp/frames/000-1_framework.drawio-tilt-000.png)|
 | `'-flatten'` | flattens the layers |
-| `'/usr/src/app/tmp/frames/02-000-1_framework.drawio-tilt-000-lift-020.png'` | output filename ![](src/tmp/frames/02-000-1_framework.drawio-tilt-000-lift-020.png)|
+| `'/usr/src/app/tmp/frames/02-000-1_framework.drawio-tilt-000-lift-020.png'` | output filename ![](doc/tmp/frames/02-000-1_framework.drawio-tilt-000-lift-020.png)|
 
 
 ### Step 3
@@ -140,7 +140,7 @@ Step 3 is similar to step 2 but the loop is reversed and the images are created 
 
 The partly rendered animation of this step looks like this:
 
-![](src/out/3_framework_lift_reverse.gif)
+![](doc/out/3_framework_lift_reverse.gif)
 
 #### The Command
 
@@ -160,9 +160,9 @@ The preceding command uses these parameters:
 | ------- | ------------ |
 | `'-background white'` | solid white background |
 | `'-page +0-150.0%'` | (calculated) adds a layer on top of the background |
-| `'/usr/src/app/tmp/frames/000-1_framework.drawio-tilt-000.png'` | input filename ![](src/tmp/frames/000-1_framework.drawio-tilt-000.png) |
+| `'/usr/src/app/tmp/frames/000-1_framework.drawio-tilt-000.png'` | input filename ![](doc/tmp/frames/000-1_framework.drawio-tilt-000.png) |
 | `'-flatten'` | flattens the layers |
-| `'/usr/src/app/tmp/frames/03-000-1_framework.drawio-tilt-000-lift-012.png'` | output filename ![](src/tmp/frames/03-000-1_framework.drawio-tilt-000-lift-012.png) |
+| `'/usr/src/app/tmp/frames/03-000-1_framework.drawio-tilt-000-lift-012.png'` | output filename ![](doc/tmp/frames/03-000-1_framework.drawio-tilt-000-lift-012.png) |
 
 
 ### Step 4 
@@ -172,7 +172,7 @@ diagram is used as input but the loop is reversed.
 
 The partly rendered animation of this step looks like this:
 
-![](src/out/4_framework_tilt_reverse.gif)
+![](doc/out/4_framework_tilt_reverse.gif)
 
 #### The Command
 
@@ -190,7 +190,7 @@ The preceding command uses these parameters:
 | `tilt=14.0` | (calculated) tilt angle of the current iteration |
 | `bgcolor='white -alpha remove -alpha off'` | solid white background |
 | `'/usr/src/app/layers/1_framework.drawio.png'` | input filename ![](src/layers/1_framework.drawio.png) |
-| `'/usr/src/app/tmp/frames/04-1_framework.drawio-tilt-024.png'` | output filename ![](src/tmp/frames/04-1_framework.drawio-tilt-024.png) |
+| `'/usr/src/app/tmp/frames/04-1_framework.drawio-tilt-024.png'` | output filename ![](doc/tmp/frames/04-1_framework.drawio-tilt-024.png) |
 
 
 ### Step 5 
@@ -199,7 +199,7 @@ The final step blends the final image over the framework.
 
 The partly rendered animation of this step looks like this:
 
-![](src/out/5_framework_system_fade_over.gif)
+![](doc/out/5_framework_system_fade_over.gif)
 
 #### The Command
 
@@ -231,5 +231,5 @@ The preceding command uses these parameters:
 | `'-evaluate multiply 0.5'` | (calculated) multiply alpha channel by value |
 | `'+channel'` | reset alpha channel |
 | `'-compose over -composite'` | composite images |
-| `'/usr/src/app/tmp/frames/05-2_framework_system.drawio-fade-015.png'` | output filename![](src/tmp/frames/05-2_framework_system.drawio-fade-015.png) |
+| `'/usr/src/app/tmp/frames/05-2_framework_system.drawio-fade-015.png'` | output filename![](doc/tmp/frames/05-2_framework_system.drawio-fade-015.png) |
 
